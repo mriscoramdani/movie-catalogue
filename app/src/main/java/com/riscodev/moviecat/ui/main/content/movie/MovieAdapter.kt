@@ -1,13 +1,18 @@
 package com.riscodev.moviecat.ui.main.content.movie
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.riscodev.moviecat.R
 import com.riscodev.moviecat.data.source.local.entity.MovieEntity
 import com.riscodev.moviecat.databinding.ItemContentBinding
+import com.riscodev.moviecat.ui.detail.DetailActivity
 
 class MovieAdapter :
     PagedListAdapter<MovieEntity, MovieAdapter.MovieViewHolder>(DIFF_CALLBACK) {

@@ -6,9 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.riscodev.moviecat.R
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.riscodev.moviecat.databinding.FragmentMovieBinding
 import com.riscodev.moviecat.viewmodel.ViewModelFactory
+import com.riscodev.moviecat.vo.Status
 
 class MovieFragment : Fragment() {
 
@@ -54,16 +55,30 @@ class MovieFragment : Fragment() {
 
             when (menuType) {
                 MENU_HOME -> {
-                    movieViewModel.getMovies().observe(viewLifecycleOwner, { movieList ->
-                        movieList?.let {
-                            movieAdapter.submitList(it.data)
+                    movieViewModel.getMovies().observe(viewLifecycleOwner, { movieResponse ->
+                        movieResponse?.let {
+                            when (movieResponse.status) {
+                                Status.LOADING -> showLoading(true)
+                                else -> {
+                                    showLoading(false)
+                                    if (!it.data.isNullOrEmpty()) {
+                                        movieAdapter.submitList(it.data)
+                                        showContent()
+                                    } else
+                                        showEmptyMessage()
+                                }
+                            }
                         }
                     })
                 }
                 MENU_FAVORITE -> {
                     movieViewModel.getFavoriteMovies().observe(viewLifecycleOwner, { movieList ->
                         movieList?.let {
-                            movieAdapter.submitList(it)
+                            if (it.size > 0) {
+                                movieAdapter.submitList(it)
+                                showContent()
+                            } else
+                                showEmptyMessage()
                         }
                     })
                 }
@@ -71,23 +86,15 @@ class MovieFragment : Fragment() {
             with(fragmentMovieBinding.rvItem) {
                 layoutManager = LinearLayoutManager(activity)
                 adapter = movieAdapter
-                showContent()
             }
         }
     }
 
-    private fun showInternetProblem(state: Boolean) {
-        fragmentMovieBinding.tvInfo.text = getString(R.string.msg_warn_internet_con)
-        fragmentMovieBinding.tvInfo.visibility = if (state) {
-            View.VISIBLE
-        } else {
-            View.GONE
+    private fun showEmptyMessage() {
+        with(fragmentMovieBinding) {
+            tvInfo.text = getString(com.riscodev.moviecat.R.string.msg_warn_data_empty)
+            tvInfo.visibility = View.VISIBLE
         }
-    }
-
-    private fun showEmptyData() {
-        fragmentMovieBinding.tvInfo.text = getString(R.string.msg_warn_data_empty)
-        fragmentMovieBinding.tvInfo.visibility = View.VISIBLE
     }
 
     private fun showContent() {

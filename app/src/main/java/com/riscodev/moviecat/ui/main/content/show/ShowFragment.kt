@@ -6,10 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.riscodev.moviecat.R
+import com.riscodev.moviecat.data.source.remote.StatusResponse
 import com.riscodev.moviecat.databinding.FragmentShowBinding
 import com.riscodev.moviecat.ui.main.content.movie.MovieFragment
 import com.riscodev.moviecat.viewmodel.ViewModelFactory
+import com.riscodev.moviecat.vo.Status
 
 class ShowFragment : Fragment() {
 
@@ -54,16 +57,30 @@ class ShowFragment : Fragment() {
             val showAdapter = ShowAdapter()
             when(menuType) {
                 MENU_HOME -> {
-                    showViewModel.getShows().observe(viewLifecycleOwner, { movieList ->
-                        movieList?.let {
-                            showAdapter.submitList(it.data)
+                    showViewModel.getShows().observe(viewLifecycleOwner, { showResponse ->
+                        showResponse?.let {
+                            when(showResponse.status) {
+                                Status.LOADING -> showLoading(true)
+                                else -> {
+                                    showLoading(false)
+                                    if (!it.data.isNullOrEmpty()) {
+                                        showAdapter.submitList(it.data)
+                                        showContent()
+                                    } else
+                                        showEmptyMessage()
+                                }
+                            }
                         }
                     })
                 }
                 MENU_FAVORITE -> {
                     showViewModel.getFavoriteShows().observe(viewLifecycleOwner, { movieList ->
                         movieList?.let {
-                            showAdapter.submitList(it)
+                            if (it.size > 0) {
+                                showAdapter.submitList(it)
+                                showContent()
+                            } else
+                                showEmptyMessage()
                         }
                     })
                 }
@@ -71,23 +88,15 @@ class ShowFragment : Fragment() {
             with(fragmentShowBinding.rvItem) {
                 layoutManager = LinearLayoutManager(activity)
                 adapter = showAdapter
-                showContent()
             }
         }
     }
 
-    private fun showInternetProblem(state: Boolean) {
-        fragmentShowBinding.tvInfo.text = getString(R.string.msg_warn_internet_con)
-        fragmentShowBinding.tvInfo.visibility = if (state) {
-            View.VISIBLE
-        } else {
-            View.GONE
+    private fun showEmptyMessage() {
+        with(fragmentShowBinding) {
+            tvInfo.text = getString(R.string.msg_warn_data_empty)
+            tvInfo.visibility = View.VISIBLE
         }
-    }
-
-    private fun showEmptyData() {
-        fragmentShowBinding.tvInfo.text = getString(R.string.msg_warn_data_empty)
-        fragmentShowBinding.tvInfo.visibility = View.VISIBLE
     }
 
     private fun showContent() {
