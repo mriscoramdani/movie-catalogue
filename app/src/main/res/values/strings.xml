@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">JETFLIX</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_name">MovieCat</string>
     <string name="tab_movie">Movies</string>
     <string name="tab_show">Tv Show</string>
     <string name="str_revenue">Revenue</string>

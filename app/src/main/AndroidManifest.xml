@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.riscodev.jetflix">
+    package="com.riscodev.moviecat">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -14,14 +14,14 @@
         android:theme="@style/Theme.JetFlix"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".ui.main.MainActivity"/>
-        <activity android:name=".ui.detail.DetailActivity">
+        <activity android:name="com.riscodev.moviecat.ui.main.MainActivity"/>
+        <activity android:name="com.riscodev.moviecat.ui.detail.DetailActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.main.MainActivity" />
+                android:value="com.riscodev.moviecat.ui.main.MainActivity" />
         </activity>
         <activity
-            android:name=".ui.splash.SplashActivity"
+            android:name="com.riscodev.moviecat.ui.splash.SplashActivity"
             android:theme="@style/SplashAppCompatTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
