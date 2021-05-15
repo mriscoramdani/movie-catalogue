@@ -24,11 +24,17 @@ interface LocalDao {
     @Query("SELECT * FROM showentities WHERE showId = :showId")
     fun getShow(showId: String): LiveData<ShowEntity>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertMovies(movies: List<MovieEntity>)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertShows(shows: List<ShowEntity>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertMovie(movie: MovieEntity)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertShow(show: ShowEntity)
 
     @Transaction
     @Query("SELECT * FROM movieentities WHERE movieId IN (SELECT contentId FROM favoriteentities WHERE contentType = 'movie')")

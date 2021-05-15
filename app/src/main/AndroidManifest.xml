@@ -15,9 +15,6 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <activity android:name=".ui.main.MainActivity"/>
-        <activity android:name="com.riscodev.jetflix.ui.main.setting.profile.ProfileActivity" />
-        <activity android:name="com.riscodev.jetflix.ui.main.setting.SettingActivity" />
-        <activity android:name="com.riscodev.jetflix.ui.main.favorite.FavoriteActivity" />
         <activity android:name=".ui.detail.DetailActivity" />
         <activity
             android:name=".ui.splash.SplashActivity"

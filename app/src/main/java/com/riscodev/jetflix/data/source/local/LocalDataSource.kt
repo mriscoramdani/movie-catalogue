@@ -26,7 +26,11 @@ class LocalDataSource(private val localDao: LocalDao) {
 
     fun insertMovies(data: List<MovieEntity>) = localDao.insertMovies(data)
 
+    fun insertMovie(data: MovieEntity) = localDao.insertMovie(data)
+
     fun insertShows(data: List<ShowEntity>) = localDao.insertShows(data)
+
+    fun insertShow(data: ShowEntity) = localDao.insertShow(data)
 
     fun getListFavoriteMovies(): DataSource.Factory<Int, MovieEntity> = localDao.getFavoriteMovies()
 

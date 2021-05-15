@@ -41,10 +41,13 @@ class DetailActivity : AppCompatActivity() {
 
             when (contentCategory) {
                 MOVIE -> {
+                    supportActionBar?.title = "Movie"
                     detailViewModel.setSelectedMovie(contentId)
                     populateFragment(DetailMovieFragment.newInstance(), DetailMovieFragment.TAG)
+
                 }
                 TV_SHOW -> {
+                    supportActionBar?.title = "Tv Show"
                     detailViewModel.setSelectedShow(contentId)
                     populateFragment(DetailShowFragment.newInstance(), DetailShowFragment.TAG)
                 }

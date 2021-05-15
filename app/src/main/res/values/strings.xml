@@ -7,6 +7,8 @@
     <string name="str_series">Series</string>
     <string name="str_image_show">image show</string>
     <string name="str_release_date">Release Date</string>
+    <string name="str_first_air_date">First Air Date</string>
+    <string name="str_seasons">%1$d Seasons</string>
     <string name="str_status">Status</string>
     <string name="str_overview">Overview</string>
     <string name="str_btn_tambahkan_ke_favorit">Tambahkan ke Favorit</string>
@@ -14,4 +16,5 @@
     <string name="msg_warn_internet_con">Please Check Your Internet Connection</string>
     <string name="msg_warn_data_empty">There is no data found</string>
     <string name="str_share_with">Share with</string>
+    <string name="str_app_version">App Version %1$s</string>
 </resources>

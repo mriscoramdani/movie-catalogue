@@ -8,6 +8,8 @@ import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.riscodev.jetflix.R
 import com.riscodev.jetflix.data.source.local.entity.ShowEntity
 import com.riscodev.jetflix.databinding.ItemContentBinding
 import com.riscodev.jetflix.ui.detail.DetailActivity
@@ -56,6 +58,9 @@ class ShowAdapter :
                 }
                 Glide.with(itemView.context)
                     .load(show.posterPath)
+                    .apply(
+                        RequestOptions.placeholderOf(R.drawable.bg_reload_dark_blue)
+                            .error(R.drawable.bg_broken_image_dark_blue))
                     .into(this.ivPoster)
             }
         }

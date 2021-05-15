@@ -25,7 +25,6 @@ abstract class NetworkBoundResource<ResultType, RequestType>(private val mExecut
     private fun fetchFromNetwork() {
 
         val apiResponse = createCall()
-
         result.addSource(apiResponse) { response ->
             result.removeSource(apiResponse)
             when (response.status) {

@@ -12,8 +12,8 @@ class ShowEntity(
     @ColumnInfo(name = "showId")
     var showId: String,
 
-    @ColumnInfo(name = "posterPath")
-    val posterPath: String,
+    @ColumnInfo(name = "originalName")
+    val originalName: String,
 
     @ColumnInfo(name = "overview")
     val overview: String,
@@ -21,11 +21,20 @@ class ShowEntity(
     @ColumnInfo(name = "firstAirDate")
     val firstAirDate: String,
 
-    @ColumnInfo(name = "originalName")
-    val originalName: String,
-
     @ColumnInfo(name = "voteAverage")
     val voteAverage: Double,
+
+    @ColumnInfo(name = "status")
+    val status: String,
+
+    @ColumnInfo(name = "genres")
+    val genres: String,
+
+    @ColumnInfo(name = "numberSeasons")
+    val numberSeasons: Int,
+
+    @ColumnInfo(name = "posterPath")
+    val posterPath: String,
 ) {
     companion object {
         const val TYPE = "show"

@@ -12,8 +12,8 @@ class MovieEntity(
     @ColumnInfo(name = "movieId")
     var movieId: String,
 
-    @ColumnInfo(name = "posterPath")
-    val posterPath: String,
+    @ColumnInfo(name = "originalTitle")
+    val originalTitle: String,
 
     @ColumnInfo(name = "overview")
     val overview: String,
@@ -21,11 +21,17 @@ class MovieEntity(
     @ColumnInfo(name = "releaseDate")
     val releaseDate: String,
 
-    @ColumnInfo(name = "originalTitle")
-    val originalTitle: String,
-
     @ColumnInfo(name = "voteAverage")
     val voteAverage: Double,
+
+    @ColumnInfo(name = "status")
+    val status: String,
+
+    @ColumnInfo(name = "genres")
+    val genres: String,
+
+    @ColumnInfo(name = "posterPath")
+    val posterPath: String,
 ) {
     companion object {
         const val TYPE = "movie"

@@ -58,10 +58,11 @@ class DetailMovieFragment : BaseFragment() {
             movie.data?.apply {
                 with(fragmentMovieBinding) {
                     tvTitle.text = originalTitle
-                    tvGenres.text = ""
-                    tvScore.text = ""
+                    tvGenres.text = genres
+                    tvScore.text = voteAverage.toString()
                     tvDate.text = DateParser.parse(releaseDate, "yyyy-MM-dd")
                     tvDesc.text = overview
+                    tvStatus.text = status
                     Glide.with(requireActivity())
                         .load(posterPath)
                         .into(imageView)

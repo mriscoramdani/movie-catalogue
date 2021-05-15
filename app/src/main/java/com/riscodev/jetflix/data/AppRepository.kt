@@ -54,11 +54,15 @@ class AppRepository private constructor(
                 data.forEach {
                     val movie = MovieEntity(
                         it.id.toString(),
-                        BuildConfig.API_IMAGE_URL + it.posterPath,
+                        it.title,
                         it.overview,
                         it.releaseDate,
-                        it.title,
-                        it.voteAverage
+                        it.voteAverage,
+                        it.status,
+                        it.genresEntity.joinToString { genre ->
+                            genre.name
+                        },
+                        BuildConfig.API_IMAGE_URL + it.posterPath
                     )
                     movieEntities.add(movie)
                 }
@@ -81,11 +85,16 @@ class AppRepository private constructor(
                 data.forEach {
                     val show = ShowEntity(
                         it.id.toString(),
-                        BuildConfig.API_IMAGE_URL + it.posterPath,
+                        it.originalName,
                         it.overview,
                         it.firstAirDate,
-                        it.originalName,
-                        it.voteAverage
+                        it.voteAverage,
+                        it.status,
+                        it.genres.joinToString { genre ->
+                            genre.name
+                        },
+                        it.numberOfSeasons,
+                        BuildConfig.API_IMAGE_URL + it.posterPath
                     )
                     showEntities.add(show)
                 }
@@ -102,7 +111,21 @@ class AppRepository private constructor(
             public override fun createCall(): LiveData<ApiResponse<MovieResponse>> =
                 remoteDataSource.getMovie(id)
 
-            public override fun saveCallResult(data: MovieResponse) = Unit
+            public override fun saveCallResult(data: MovieResponse) {
+                val movie = MovieEntity(
+                    data.id.toString(),
+                    data.title,
+                    data.overview,
+                    data.releaseDate,
+                    data.voteAverage,
+                    data.status,
+                    data.genresEntity.joinToString { genre ->
+                        genre.name
+                    },
+                    BuildConfig.API_IMAGE_URL + data.posterPath
+                )
+                localDataSource.insertMovie(movie)
+            }
         }.asLiveData()
     }
 
@@ -114,7 +137,22 @@ class AppRepository private constructor(
             public override fun createCall(): LiveData<ApiResponse<ShowResponse>> =
                 remoteDataSource.getShow(id)
 
-            public override fun saveCallResult(data: ShowResponse) = Unit
+            public override fun saveCallResult(data: ShowResponse) {
+                val show = ShowEntity(
+                    data.id.toString(),
+                    data.originalName,
+                    data.overview,
+                    data.firstAirDate,
+                    data.voteAverage,
+                    data.status,
+                    data.genres.joinToString { genre ->
+                        genre.name
+                    },
+                    data.numberOfSeasons,
+                    BuildConfig.API_IMAGE_URL + data.posterPath
+                )
+                localDataSource.insertShow(show)
+            }
         }.asLiveData()
     }
 

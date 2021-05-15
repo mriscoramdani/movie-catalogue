@@ -58,10 +58,12 @@ class DetailShowFragment : BaseFragment() {
             show.data?.apply {
                 with(fragmentShowBinding) {
                     tvTitle.text = originalName
-                    tvGenres.text = ""
-                    tvScore.text = ""
+                    tvSeasons.text = getString(R.string.str_seasons, numberSeasons)
+                    tvGenres.text = genres
+                    tvScore.text = voteAverage.toString()
                     tvDate.text = DateParser.parse(firstAirDate, "yyyy-MM-dd")
                     tvDesc.text = overview
+                    tvStatus.text = status
                     Glide.with(requireActivity())
                         .load(posterPath)
                         .into(imageView)
