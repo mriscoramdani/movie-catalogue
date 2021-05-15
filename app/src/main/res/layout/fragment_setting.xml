@@ -12,9 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
-        android:textSize="@dimen/sp_18"
         android:padding="@dimen/dp_16"
-        tools:text="App Version 1.0" />
+        tools:text="Version 1.0" />
 
 
 </LinearLayout>
