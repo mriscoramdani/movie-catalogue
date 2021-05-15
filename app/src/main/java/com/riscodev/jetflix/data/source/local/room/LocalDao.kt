@@ -30,11 +30,11 @@ interface LocalDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertShows(shows: List<ShowEntity>)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertMovie(movie: MovieEntity)
+    @Update
+    fun updateMovie(movie: MovieEntity)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertShow(show: ShowEntity)
+    @Update
+    fun updateShow(show: ShowEntity)
 
     @Transaction
     @Query("SELECT * FROM movieentities WHERE movieId IN (SELECT contentId FROM favoriteentities WHERE contentType = 'movie')")

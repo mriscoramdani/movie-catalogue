@@ -124,7 +124,7 @@ class AppRepository private constructor(
                     },
                     BuildConfig.API_IMAGE_URL + data.posterPath
                 )
-                localDataSource.insertMovie(movie)
+                localDataSource.updateMovie(movie)
             }
         }.asLiveData()
     }
@@ -151,7 +151,7 @@ class AppRepository private constructor(
                     data.numberOfSeasons,
                     BuildConfig.API_IMAGE_URL + data.posterPath
                 )
-                localDataSource.insertShow(show)
+                localDataSource.updateShow(show)
             }
         }.asLiveData()
     }

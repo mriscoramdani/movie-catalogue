@@ -6,12 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.riscodev.jetflix.R
 import com.riscodev.jetflix.data.source.local.entity.MovieEntity
 import com.riscodev.jetflix.databinding.FragmentDetailMovieBinding
 import com.riscodev.jetflix.ui.detail.DetailViewModel
 import com.riscodev.jetflix.ui.detail.base.BaseFragment
 import com.riscodev.jetflix.utils.DateParser
+import com.riscodev.jetflix.utils.Utils
 import com.riscodev.jetflix.viewmodel.ViewModelFactory
 
 class DetailMovieFragment : BaseFragment() {
@@ -58,13 +60,16 @@ class DetailMovieFragment : BaseFragment() {
             movie.data?.apply {
                 with(fragmentMovieBinding) {
                     tvTitle.text = originalTitle
-                    tvGenres.text = genres
+                    tvGenres.text = Utils.emptyCheck(genres)
                     tvScore.text = voteAverage.toString()
                     tvDate.text = DateParser.parse(releaseDate, "yyyy-MM-dd")
                     tvDesc.text = overview
-                    tvStatus.text = status
+                    tvStatus.text = Utils.emptyCheck(status)
                     Glide.with(requireActivity())
                         .load(posterPath)
+                        .apply(
+                            RequestOptions.placeholderOf(R.drawable.bg_reload_dark_blue)
+                                .error(R.drawable.bg_broken_image_dark_blue))
                         .into(imageView)
 
                     btnShare.setOnClickListener {
