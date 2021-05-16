@@ -22,14 +22,8 @@ class HomeTabAdapter(private val mContext: Context, fm: FragmentManager) :
 
     override fun getItem(position: Int): Fragment =
         when (position) {
-            0 -> {
-                EspressoIdlingResource.increment()
-                MovieFragment.newInstance(MovieFragment.MENU_HOME)
-            }
-            1 -> {
-                EspressoIdlingResource.increment()
-                ShowFragment.newInstance(ShowFragment.MENU_HOME)
-            }
+            0 -> MovieFragment.newInstance(MovieFragment.MENU_HOME)
+            1 -> ShowFragment.newInstance(ShowFragment.MENU_HOME)
             else -> Fragment()
         }
 

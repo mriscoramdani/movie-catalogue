@@ -31,7 +31,6 @@ class MovieFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        EspressoIdlingResource.decrement()
         arguments?.getString(MENU_TYPE)?.apply {
             menuType = this
         }

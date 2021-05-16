@@ -9,6 +9,7 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.ViewAssertions.matches
+import androidx.test.espresso.contrib.NavigationViewActions
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
 import com.google.android.material.tabs.TabLayout
@@ -28,6 +29,7 @@ class MainActivityTest {
         const val LIST_COUNT = 10
         const val INDEX_MOVIE_TAB = 0
         const val INDEX_SHOW_TAB = 1
+        const val DELAY_TIME = 1000L
     }
 
     @Before
@@ -103,6 +105,7 @@ class MainActivityTest {
     fun loadShows() {
         onView(withId(R.id.tabs)).check(matches(isDisplayed()))
         onView(withId(R.id.tabs)).perform(selectTabAtPosition(INDEX_SHOW_TAB))
+        SystemClock.sleep(DELAY_TIME)
         onView(withId(R.id.rv_show)).check(matches(isDisplayed()))
         onView(withId(R.id.rv_show)).check(
             RecyclerViewItemCountAssertion(Matchers.greaterThan(0))
@@ -113,9 +116,10 @@ class MainActivityTest {
     }
 
     @Test
-    fun shareShow() {
+    fun loadDetailShow() {
         onView(withId(R.id.tabs)).check(matches(isDisplayed()))
         onView(withId(R.id.tabs)).perform(selectTabAtPosition(INDEX_SHOW_TAB))
+        SystemClock.sleep(DELAY_TIME)
         onView(withId(R.id.rv_show)).check(matches(isDisplayed()))
         onView(withId(R.id.rv_show)).check(
             RecyclerViewItemCountAssertion(Matchers.greaterThan(0))
@@ -125,8 +129,70 @@ class MainActivityTest {
                 0, click()
             )
         )
+        onView(withId(R.id.tv_title_show)).check(matches(isDisplayed()))
+        onView(withId(R.id.tv_title_show)).check(matches(CoreMatchers.not(withText(""))))
+        onView(withId(R.id.tv_genres_show)).check(matches(isDisplayed()))
+        onView(withId(R.id.tv_genres_show)).check(matches(CoreMatchers.not(withText(""))))
+        onView(withId(R.id.tv_score_show)).check(matches(isDisplayed()))
+        onView(withId(R.id.tv_score_show)).check(matches(CoreMatchers.not(withText(""))))
+        onView(withId(R.id.tv_date_show)).check(matches(isDisplayed()))
+        onView(withId(R.id.tv_date_show)).check(matches(CoreMatchers.not(withText(""))))
+        onView(withId(R.id.tv_desc_show)).check(matches(isDisplayed()))
+        onView(withId(R.id.tv_desc_show)).check(matches(CoreMatchers.not(withText(""))))
+        onView(withId(R.id.tv_status_show)).check(matches(isDisplayed()))
+        onView(withId(R.id.tv_status_show)).check(matches(CoreMatchers.not(withText(""))))
+        onView(withId(R.id.image_view_show)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun shareShow() {
+        onView(withId(R.id.tabs)).check(matches(isDisplayed()))
+        onView(withId(R.id.tabs)).perform(selectTabAtPosition(INDEX_SHOW_TAB))
+        SystemClock.sleep(DELAY_TIME)
+        onView(withId(R.id.rv_show)).check(matches(isDisplayed()))
+        onView(withId(R.id.rv_show)).check(
+            RecyclerViewItemCountAssertion(Matchers.greaterThan(0))
+        )
+        onView(withId(R.id.rv_show)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                0, click()
+            )
+        )
+        onView(withId(R.id.btn_share_show)).perform(scrollTo())
         onView(withId(R.id.btn_share_show)).check(matches(isDisplayed()))
-        onView(withId(R.id.btn_share_show)).perform(scrollTo(), click())
+        onView(withId(R.id.btn_share_show)).perform(click())
+    }
+
+    @Test
+    fun loadFavoriteMovies() {
+        onView(withId(R.id.bottomNavigation)).check(matches(isDisplayed()))
+        onView(withContentDescription(R.string.menu_favorite)).perform(click())
+        onView(withId(R.id.tabs)).check(matches(isDisplayed()))
+        onView(withId(R.id.tabs)).perform(selectTabAtPosition(INDEX_MOVIE_TAB))
+        onView(withId(R.id.rv_movie)).check(matches(isDisplayed()))
+        onView(withId(R.id.rv_movie)).perform(
+            RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(LIST_COUNT)
+        )
+    }
+
+    @Test
+    fun loadFavoriteShows() {
+        onView(withId(R.id.bottomNavigation)).check(matches(isDisplayed()))
+        onView(withContentDescription(R.string.menu_favorite)).perform(click())
+        onView(withId(R.id.tabs)).check(matches(isDisplayed()))
+        onView(withId(R.id.tabs)).perform(selectTabAtPosition(INDEX_SHOW_TAB))
+        SystemClock.sleep(DELAY_TIME)
+        onView(withId(R.id.rv_show)).check(matches(isDisplayed()))
+        onView(withId(R.id.rv_show)).perform(
+            RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(LIST_COUNT)
+        )
+    }
+
+    @Test
+    fun showVersionApp() {
+        onView(withId(R.id.bottomNavigation)).check(matches(isDisplayed()))
+        onView(withContentDescription(R.string.menu_setting)).perform(click())
+        onView(withId(R.id.version_app)).check(matches(isDisplayed()))
     }
 
     private fun selectTabAtPosition(tabIndex: Int): ViewAction {
