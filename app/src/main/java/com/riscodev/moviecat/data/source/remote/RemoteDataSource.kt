@@ -6,6 +6,7 @@ import com.riscodev.moviecat.data.source.remote.response.DataResponse
 import com.riscodev.moviecat.data.source.remote.response.MovieResponse
 import com.riscodev.moviecat.data.source.remote.response.ShowResponse
 import com.riscodev.moviecat.data.source.remote.retrofit.RemoteDao
+import com.riscodev.moviecat.utils.EspressoIdlingResource
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -25,6 +26,7 @@ class RemoteDataSource private constructor(
     }
 
     fun getListMovie(): LiveData<ApiResponse<List<MovieResponse>>> {
+        EspressoIdlingResource.increment()
         val resultMovie = MutableLiveData<ApiResponse<List<MovieResponse>>>()
 
         remoteDao.getMovies(apiRequestKey).apply {
@@ -38,10 +40,12 @@ class RemoteDataSource private constructor(
                         resultMovie.value = ApiResponse.success(data.results)
                     else
                         resultMovie.value = ApiResponse.empty("", emptyList())
+                    EspressoIdlingResource.decrement()
                 }
 
                 override fun onFailure(call: Call<DataResponse<MovieResponse>>, t: Throwable) {
                     resultMovie.value = ApiResponse.error(t.toString(), emptyList())
+                    EspressoIdlingResource.decrement()
                 }
             })
         }
@@ -49,6 +53,7 @@ class RemoteDataSource private constructor(
     }
 
     fun getListShow(): LiveData<ApiResponse<List<ShowResponse>>> {
+        EspressoIdlingResource.increment()
         val resultShow = MutableLiveData<ApiResponse<List<ShowResponse>>>()
 
         remoteDao.getShows(apiRequestKey).apply {
@@ -62,10 +67,12 @@ class RemoteDataSource private constructor(
                         resultShow.value = ApiResponse.success(data.results)
                     else
                         resultShow.value = ApiResponse.empty("", emptyList())
+                    EspressoIdlingResource.decrement()
                 }
 
                 override fun onFailure(call: Call<DataResponse<ShowResponse>>, t: Throwable) {
                     resultShow.value = ApiResponse.error(t.toString(), emptyList())
+                    EspressoIdlingResource.decrement()
                 }
             })
         }
@@ -73,6 +80,7 @@ class RemoteDataSource private constructor(
     }
 
     fun getMovie(movieId: String): LiveData<ApiResponse<MovieResponse>> {
+        EspressoIdlingResource.increment()
         val result = MutableLiveData<ApiResponse<MovieResponse>>()
 
         remoteDao.getMovie(movieId, apiRequestKey).apply {
@@ -86,10 +94,12 @@ class RemoteDataSource private constructor(
                         result.value = ApiResponse.success(data)
                     else
                         result.value = ApiResponse.empty("", MovieResponse())
+                    EspressoIdlingResource.decrement()
                 }
 
                 override fun onFailure(call: Call<MovieResponse>, t: Throwable) {
                     result.value = ApiResponse.error(t.toString(), MovieResponse())
+                    EspressoIdlingResource.decrement()
                 }
             })
         }
@@ -97,6 +107,7 @@ class RemoteDataSource private constructor(
     }
 
     fun getShow(movieId: String): LiveData<ApiResponse<ShowResponse>> {
+        EspressoIdlingResource.increment()
         val result = MutableLiveData<ApiResponse<ShowResponse>>()
 
         remoteDao.getShow(movieId, apiRequestKey).apply {
@@ -110,10 +121,12 @@ class RemoteDataSource private constructor(
                         result.value = ApiResponse.success(data)
                     else
                         result.value = ApiResponse.empty("", ShowResponse())
+                    EspressoIdlingResource.decrement()
                 }
 
                 override fun onFailure(call: Call<ShowResponse>, t: Throwable) {
                     result.value = ApiResponse.error(t.toString(), ShowResponse())
+                    EspressoIdlingResource.decrement()
                 }
             })
         }

@@ -56,56 +56,34 @@ class MovieFragment : Fragment() {
             when (menuType) {
                 MENU_HOME -> {
                     movieViewModel.getMovies().observe(viewLifecycleOwner, { movieResponse ->
-                        movieResponse?.let {
-                            when (movieResponse.status) {
-                                Status.LOADING -> showLoading(true)
-                                else -> {
-                                    showLoading(false)
-                                    if (!it.data.isNullOrEmpty()) {
-                                        movieAdapter.submitList(it.data)
-                                        showContent()
-                                    } else
-                                        showEmptyMessage()
+                        when (movieResponse.status) {
+                            Status.LOADING ->
+                                fragmentMovieBinding.loadingView.visibility = View.VISIBLE
+                            else -> {
+                                fragmentMovieBinding.loadingView.visibility = View.GONE
+                                if (movieResponse.data.isNullOrEmpty()) {
+                                    fragmentMovieBinding.tvInfo.visibility = View.VISIBLE
                                 }
+                                movieAdapter.submitList(movieResponse.data)
                             }
                         }
                     })
                 }
                 MENU_FAVORITE -> {
                     movieViewModel.getFavoriteMovies().observe(viewLifecycleOwner, { movieList ->
-                        movieList?.let {
-                            if (it.size > 0) {
-                                movieAdapter.submitList(it)
-                                showContent()
-                            } else
-                                showEmptyMessage()
+                        fragmentMovieBinding.loadingView.visibility = View.GONE
+
+                        if (movieList.isNullOrEmpty()) {
+                            fragmentMovieBinding.tvInfo.visibility = View.VISIBLE
                         }
+                        movieAdapter.submitList(movieList)
                     })
                 }
             }
-            with(fragmentMovieBinding.rvItem) {
+            with(fragmentMovieBinding.rvMovie) {
                 layoutManager = LinearLayoutManager(activity)
                 adapter = movieAdapter
             }
-        }
-    }
-
-    private fun showEmptyMessage() {
-        with(fragmentMovieBinding) {
-            tvInfo.text = getString(com.riscodev.moviecat.R.string.msg_warn_data_empty)
-            tvInfo.visibility = View.VISIBLE
-        }
-    }
-
-    private fun showContent() {
-        fragmentMovieBinding.rvItem.visibility = View.VISIBLE
-    }
-
-    private fun showLoading(state: Boolean) {
-        fragmentMovieBinding.loadingView.visibility = if (state) {
-            View.VISIBLE
-        } else {
-            View.GONE
         }
     }
 }

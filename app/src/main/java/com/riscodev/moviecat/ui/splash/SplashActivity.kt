@@ -7,6 +7,7 @@ import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import com.riscodev.moviecat.databinding.ActivitySplashBinding
 import com.riscodev.moviecat.ui.main.MainActivity
+import com.riscodev.moviecat.utils.EspressoIdlingResource
 
 class SplashActivity : AppCompatActivity() {
     companion object {
@@ -19,10 +20,12 @@ class SplashActivity : AppCompatActivity() {
         setContentView(activitySplashBinding.root)
 
         // Redirect to homepage
+        EspressoIdlingResource.increment()
         Handler(Looper.getMainLooper()).postDelayed({
             val mainActivityIntent = Intent(this@SplashActivity, MainActivity::class.java)
             startActivity(mainActivityIntent)
             finish()
+            EspressoIdlingResource.decrement()
         }, TIME_DELAY)
     }
 }
