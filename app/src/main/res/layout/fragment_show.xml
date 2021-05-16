@@ -10,7 +10,7 @@
     tools:context=".ui.main.content.movie.MovieFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_item"
+        android:id="@+id/rv_show"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"

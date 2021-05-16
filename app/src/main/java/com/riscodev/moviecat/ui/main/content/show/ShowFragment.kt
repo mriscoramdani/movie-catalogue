@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.riscodev.moviecat.databinding.FragmentShowBinding
+import com.riscodev.moviecat.utils.EspressoIdlingResource
 import com.riscodev.moviecat.viewmodel.ViewModelFactory
 import com.riscodev.moviecat.vo.Status
 
@@ -30,6 +31,7 @@ class ShowFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        EspressoIdlingResource.decrement()
         arguments?.getString(MENU_TYPE)?.apply {
             menuType = this
         }
@@ -45,6 +47,7 @@ class ShowFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         if (activity != null) {
             val showViewModel = ViewModelProvider(
                 this,
@@ -56,14 +59,19 @@ class ShowFragment : Fragment() {
                 MENU_HOME -> {
                     showViewModel.getShows().observe(viewLifecycleOwner, { showResponse ->
                         when (showResponse.status) {
-                            Status.LOADING ->
+                            Status.LOADING -> {
+                                EspressoIdlingResource.increment()
                                 fragmentShowBinding.loadingView.visibility = View.VISIBLE
+                            }
                             else -> {
                                 fragmentShowBinding.loadingView.visibility = View.GONE
                                 if (showResponse.data.isNullOrEmpty()) {
                                     fragmentShowBinding.tvInfo.visibility = View.VISIBLE
                                 }
-                                showAdapter.submitList(showResponse.data)
+                                else {
+                                    showAdapter.submitList(showResponse.data)
+                                }
+                                EspressoIdlingResource.decrement()
                             }
                         }
                     })
@@ -79,7 +87,7 @@ class ShowFragment : Fragment() {
                     })
                 }
             }
-            with(fragmentShowBinding.rvItem) {
+            with(fragmentShowBinding.rvShow) {
                 layoutManager = LinearLayoutManager(activity)
                 adapter = showAdapter
             }

@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.riscodev.moviecat.databinding.FragmentMovieBinding
+import com.riscodev.moviecat.utils.EspressoIdlingResource
 import com.riscodev.moviecat.viewmodel.ViewModelFactory
 import com.riscodev.moviecat.vo.Status
 
@@ -30,6 +31,7 @@ class MovieFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        EspressoIdlingResource.decrement()
         arguments?.getString(MENU_TYPE)?.apply {
             menuType = this
         }
@@ -57,14 +59,18 @@ class MovieFragment : Fragment() {
                 MENU_HOME -> {
                     movieViewModel.getMovies().observe(viewLifecycleOwner, { movieResponse ->
                         when (movieResponse.status) {
-                            Status.LOADING ->
+                            Status.LOADING -> {
+                                EspressoIdlingResource.increment()
                                 fragmentMovieBinding.loadingView.visibility = View.VISIBLE
+                            }
                             else -> {
                                 fragmentMovieBinding.loadingView.visibility = View.GONE
                                 if (movieResponse.data.isNullOrEmpty()) {
                                     fragmentMovieBinding.tvInfo.visibility = View.VISIBLE
+                                } else {
+                                    movieAdapter.submitList(movieResponse.data)
                                 }
-                                movieAdapter.submitList(movieResponse.data)
+                                EspressoIdlingResource.decrement()
                             }
                         }
                     })

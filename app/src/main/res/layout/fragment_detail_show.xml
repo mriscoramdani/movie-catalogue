@@ -8,7 +8,7 @@
     tools:context=".ui.detail.movie.DetailMovieFragment">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btn_favorite"
+        android:id="@+id/btn_favorite_show"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/yellow"
@@ -41,7 +41,7 @@
                 tools:visibility="visible">
 
                 <ImageView
-                    android:id="@+id/image_view"
+                    android:id="@+id/image_view_show"
                     android:layout_width="@dimen/dp_90"
                     android:layout_height="@dimen/dp_140"
                     android:scaleType="centerCrop"
@@ -53,7 +53,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tv_title"
+                    android:id="@+id/tv_title_show"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/dp_24"
@@ -65,11 +65,11 @@
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/image_view"
+                    app:layout_constraintTop_toBottomOf="@+id/image_view_show"
                     tools:text="Friends" />
 
                 <TextView
-                    android:id="@+id/tv_genres"
+                    android:id="@+id/tv_genres_show"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_4"
@@ -79,22 +79,22 @@
                     android:layout_marginRight="@dimen/dp_32"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_title"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_title_show"
                     tools:text="Drama, Komedi" />
 
                 <TextView
-                    android:id="@+id/tv_seasons"
+                    android:id="@+id/tv_seasons_show"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_4"
                     android:textColor="@color/yellow"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_genres"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_genres_show"
                     tools:text="7 Seasons" />
 
                 <TextView
-                    android:id="@+id/tv_score"
+                    android:id="@+id/tv_score_show"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@color/yellow"
@@ -102,13 +102,13 @@
                     tools:text="10"
                     android:contentDescription="@string/str_image_show"
                     android:textColor="@color/dark_blue"
-                    app:layout_constraintBottom_toTopOf="@+id/tv_title"
-                    app:layout_constraintEnd_toEndOf="@+id/image_view"
+                    app:layout_constraintBottom_toTopOf="@+id/tv_title_show"
+                    app:layout_constraintEnd_toEndOf="@+id/image_view_show"
                     app:layout_constraintHorizontal_bias="0.493"
-                    app:layout_constraintStart_toStartOf="@+id/image_view" />
+                    app:layout_constraintStart_toStartOf="@+id/image_view_show" />
 
                 <TextView
-                    android:id="@+id/tv_date"
+                    android:id="@+id/tv_date_show"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
@@ -126,11 +126,11 @@
                     android:layout_marginEnd="8dp"
                     android:text="@string/str_first_air_date"
                     android:textColor="@color/soft_blue"
-                    app:layout_constraintEnd_toStartOf="@+id/tv_date"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_date_show"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintHorizontal_chainStyle="packed"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_seasons" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_seasons_show" />
 
                 <TextView
                     android:id="@+id/textView7"
@@ -141,14 +141,14 @@
                     android:text="@string/str_status"
                     android:textColor="@color/soft_blue"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/tv_status"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_status_show"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintHorizontal_chainStyle="packed"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
                 <TextView
-                    android:id="@+id/tv_status"
+                    android:id="@+id/tv_status_show"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
@@ -169,10 +169,10 @@
                     android:textSize="@dimen/sp_18"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_status" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_status_show" />
 
                 <TextView
-                    android:id="@+id/tv_desc"
+                    android:id="@+id/tv_desc_show"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_32"
@@ -186,7 +186,7 @@
                     tools:text="A ticking-time-bomb insomniac and a slippery soap salesman channel primal male aggression into a shocking new form of therapy. Their concept catches on, with underground 'fight clubs' forming in every town, until an eccentric gets in the way and ignites an out-of-control spiral toward oblivion." />
 
                 <Button
-                    android:id="@+id/btn_share"
+                    android:id="@+id/btn_share_show"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/dp_32"
@@ -199,7 +199,7 @@
                     android:drawablePadding="@dimen/dp_8"
                     android:backgroundTint="@color/yellow"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_desc" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_desc_show" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

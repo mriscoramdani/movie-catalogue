@@ -51,7 +51,7 @@ class DetailShowFragment : BaseFragment() {
             detailViewModel.getFavorite(this, ShowEntity.TYPE)
                 .observe(viewLifecycleOwner, { favorite ->
                     if (favorite != null) {
-                        fragmentShowBinding.btnFavorite.setImageResource(R.drawable.ic_favorite_dark)
+                        fragmentShowBinding.btnFavoriteShow.setImageResource(R.drawable.ic_favorite_dark)
                         favorited = true
                     }
                 })
@@ -64,26 +64,26 @@ class DetailShowFragment : BaseFragment() {
                     showLoading(false)
                     show.data?.apply {
                         with(fragmentShowBinding) {
-                            tvTitle.text = originalName
-                            tvSeasons.text = if (Utils.countCheck(numberSeasons)) {
+                            tvTitleShow.text = originalName
+                            tvSeasonsShow.text = if (Utils.countCheck(numberSeasons)) {
                                 getString(R.string.str_seasons, numberSeasons)
                             } else {
                                 "..."
                             }
-                            tvGenres.text = Utils.emptyCheck(genres)
-                            tvScore.text = voteAverage.toString()
-                            tvDate.text = DateParser.parse(firstAirDate, "yyyy-MM-dd")
-                            tvDesc.text = overview
-                            tvStatus.text = Utils.emptyCheck(status)
+                            tvGenresShow.text = Utils.emptyCheck(genres)
+                            tvScoreShow.text = voteAverage.toString()
+                            tvDateShow.text = DateParser.parse(firstAirDate, "yyyy-MM-dd")
+                            tvDescShow.text = overview
+                            tvStatusShow.text = Utils.emptyCheck(status)
                             Glide.with(requireActivity())
                                 .load(posterPath)
                                 .apply(
                                     RequestOptions.placeholderOf(R.drawable.bg_reload_dark_blue)
                                         .error(R.drawable.bg_broken_image_dark_blue)
                                 )
-                                .into(imageView)
+                                .into(imageViewShow)
 
-                            btnShare.setOnClickListener {
+                            btnShareShow.setOnClickListener {
                                 shareContent(
                                     originalName,
                                     overview,
@@ -91,14 +91,14 @@ class DetailShowFragment : BaseFragment() {
                                 )
                             }
 
-                            btnFavorite.setOnClickListener {
+                            btnFavoriteShow.setOnClickListener {
                                 favorited = if (!favorited) {
                                     detailViewModel.saveFavorite(showId, ShowEntity.TYPE)
-                                    btnFavorite.setImageResource(R.drawable.ic_favorite_dark)
+                                    btnFavoriteShow.setImageResource(R.drawable.ic_favorite_dark)
                                     true
                                 } else {
                                     detailViewModel.removeFavorite(showId, ShowEntity.TYPE)
-                                    btnFavorite.setImageResource(R.drawable.ic_favorite_outline_dark)
+                                    btnFavoriteShow.setImageResource(R.drawable.ic_favorite_outline_dark)
                                     false
                                 }
                             }
@@ -122,7 +122,7 @@ class DetailShowFragment : BaseFragment() {
     private fun showContent() {
         with(fragmentShowBinding) {
             contentLayout.visibility = View.VISIBLE
-            btnFavorite.visibility = View.VISIBLE
+            btnFavoriteShow.visibility = View.VISIBLE
         }
     }
 

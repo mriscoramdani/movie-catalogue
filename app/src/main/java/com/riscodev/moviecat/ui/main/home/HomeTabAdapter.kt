@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 import com.riscodev.moviecat.R
 import com.riscodev.moviecat.ui.main.content.movie.MovieFragment
 import com.riscodev.moviecat.ui.main.content.show.ShowFragment
+import com.riscodev.moviecat.utils.EspressoIdlingResource
 
 class HomeTabAdapter(private val mContext: Context, fm: FragmentManager) :
     FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
@@ -21,8 +22,14 @@ class HomeTabAdapter(private val mContext: Context, fm: FragmentManager) :
 
     override fun getItem(position: Int): Fragment =
         when (position) {
-            0 -> MovieFragment.newInstance(MovieFragment.MENU_HOME)
-            1 -> ShowFragment.newInstance(ShowFragment.MENU_HOME)
+            0 -> {
+                EspressoIdlingResource.increment()
+                MovieFragment.newInstance(MovieFragment.MENU_HOME)
+            }
+            1 -> {
+                EspressoIdlingResource.increment()
+                ShowFragment.newInstance(ShowFragment.MENU_HOME)
+            }
             else -> Fragment()
         }
 

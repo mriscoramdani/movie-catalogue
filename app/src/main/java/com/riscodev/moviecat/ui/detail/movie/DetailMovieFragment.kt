@@ -51,7 +51,7 @@ class DetailMovieFragment : BaseFragment() {
             detailViewModel.getFavorite(this, MovieEntity.TYPE)
                 .observe(viewLifecycleOwner, { favorite ->
                     if (favorite != null) {
-                        fragmentMovieBinding.btnFavorite.setImageResource(R.drawable.ic_favorite_dark)
+                        fragmentMovieBinding.btnFavoriteMovie.setImageResource(R.drawable.ic_favorite_dark)
                         favorited = true
                     }
                 })
@@ -64,20 +64,20 @@ class DetailMovieFragment : BaseFragment() {
                     showLoading(false)
                     movie.data?.apply {
                         with(fragmentMovieBinding) {
-                            tvTitle.text = originalTitle
-                            tvGenres.text = Utils.emptyCheck(genres)
-                            tvScore.text = voteAverage.toString()
-                            tvDate.text = DateParser.parse(releaseDate, "yyyy-MM-dd")
-                            tvDesc.text = overview
-                            tvStatus.text = Utils.emptyCheck(status)
+                            tvTitleMovie.text = originalTitle
+                            tvGenresMovie.text = Utils.emptyCheck(genres)
+                            tvScoreMovie.text = voteAverage.toString()
+                            tvDateMovie.text = DateParser.parse(releaseDate, "yyyy-MM-dd")
+                            tvDescMovie.text = overview
+                            tvStatusMovie.text = Utils.emptyCheck(status)
                             Glide.with(requireActivity())
                                 .load(posterPath)
                                 .apply(
                                     RequestOptions.placeholderOf(R.drawable.bg_reload_dark_blue)
                                         .error(R.drawable.bg_broken_image_dark_blue))
-                                .into(imageView)
+                                .into(imageViewMovie)
 
-                            btnShare.setOnClickListener {
+                            btnShareMovie.setOnClickListener {
                                 shareContent(
                                     originalTitle,
                                     overview,
@@ -85,14 +85,14 @@ class DetailMovieFragment : BaseFragment() {
                                 )
                             }
 
-                            btnFavorite.setOnClickListener {
+                            btnFavoriteMovie.setOnClickListener {
                                 favorited = if (!favorited) {
                                     detailViewModel.saveFavorite(movieId, MovieEntity.TYPE)
-                                    btnFavorite.setImageResource(R.drawable.ic_favorite_dark)
+                                    btnFavoriteMovie.setImageResource(R.drawable.ic_favorite_dark)
                                     true
                                 } else {
                                     detailViewModel.removeFavorite(movieId, MovieEntity.TYPE)
-                                    btnFavorite.setImageResource(R.drawable.ic_favorite_outline_dark)
+                                    btnFavoriteMovie.setImageResource(R.drawable.ic_favorite_outline_dark)
                                     false
                                 }
                             }
@@ -116,7 +116,7 @@ class DetailMovieFragment : BaseFragment() {
     private fun showContent() {
         with(fragmentMovieBinding) {
             contentLayout.visibility = View.VISIBLE
-            btnFavorite.visibility = View.VISIBLE
+            btnFavoriteMovie.visibility = View.VISIBLE
         }
     }
 
