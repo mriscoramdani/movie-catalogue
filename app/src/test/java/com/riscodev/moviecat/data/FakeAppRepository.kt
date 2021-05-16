@@ -15,7 +15,7 @@ import com.riscodev.moviecat.data.source.remote.response.ShowResponse
 import com.riscodev.moviecat.utils.AppExecutors
 import com.riscodev.moviecat.vo.Resource
 
-class AppRepository private constructor(
+class FakeAppRepository constructor(
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource,
     private val appExecutors: AppExecutors
@@ -26,19 +26,6 @@ class AppRepository private constructor(
         .setInitialLoadSizeHint(4)
         .setPageSize(4)
         .build()
-
-    companion object {
-        @Volatile
-        private var instance: AppRepository? = null
-        fun getInstance(
-            remoteDataSource: RemoteDataSource,
-            localDataSource: LocalDataSource,
-            appExecutors: AppExecutors
-        ): AppRepository =
-            instance ?: synchronized(this) {
-                instance ?: AppRepository(remoteDataSource, localDataSource, appExecutors)
-            }
-    }
 
     override fun getListMovies(): LiveData<Resource<PagedList<MovieEntity>>> {
         return object :

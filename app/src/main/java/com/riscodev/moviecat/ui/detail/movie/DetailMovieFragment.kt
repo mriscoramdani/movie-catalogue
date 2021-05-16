@@ -57,7 +57,7 @@ class DetailMovieFragment : BaseFragment() {
                 })
         }
 
-        detailViewModel.getMovie().observe(viewLifecycleOwner, { movie ->
+        detailViewModel.movie.observe(viewLifecycleOwner, { movie ->
             when(movie.status) {
                 Status.LOADING -> showLoading(true)
                 else -> {

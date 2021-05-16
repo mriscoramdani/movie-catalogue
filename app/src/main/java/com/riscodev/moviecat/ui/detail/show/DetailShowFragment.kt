@@ -57,7 +57,7 @@ class DetailShowFragment : BaseFragment() {
                 })
         }
 
-        detailViewModel.getShow().observe(viewLifecycleOwner, { show ->
+        detailViewModel.show.observe(viewLifecycleOwner, { show ->
             when(show.status) {
                 Status.LOADING -> showLoading(true)
                 else -> {

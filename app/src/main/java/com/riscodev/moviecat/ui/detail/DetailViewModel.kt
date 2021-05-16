@@ -15,12 +15,12 @@ class DetailViewModel(private val appRepository: AppRepository) : ViewModel() {
     private var movieId = MutableLiveData<String>()
     private var showId = MutableLiveData<String>()
 
-    fun getMovie(): LiveData<Resource<MovieEntity>> =
+    var movie: LiveData<Resource<MovieEntity>> =
         Transformations.switchMap(movieId) { movieId ->
             appRepository.getMovie(movieId)
         }
 
-    fun getShow(): LiveData<Resource<ShowEntity>> = Transformations.switchMap(showId) { showId ->
+    var show: LiveData<Resource<ShowEntity>> = Transformations.switchMap(showId) { showId ->
         appRepository.getShow(showId)
     }
 

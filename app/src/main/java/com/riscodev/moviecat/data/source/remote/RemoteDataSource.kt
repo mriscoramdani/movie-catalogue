@@ -25,7 +25,7 @@ class RemoteDataSource private constructor(
             }
     }
 
-    fun getListMovie(): LiveData<ApiResponse<List<MovieResponse>>> {
+    fun getListMovies(): LiveData<ApiResponse<List<MovieResponse>>> {
         EspressoIdlingResource.increment()
         val resultMovie = MutableLiveData<ApiResponse<List<MovieResponse>>>()
 
@@ -52,7 +52,7 @@ class RemoteDataSource private constructor(
         return resultMovie
     }
 
-    fun getListShow(): LiveData<ApiResponse<List<ShowResponse>>> {
+    fun getListShows(): LiveData<ApiResponse<List<ShowResponse>>> {
         EspressoIdlingResource.increment()
         val resultShow = MutableLiveData<ApiResponse<List<ShowResponse>>>()
 
@@ -106,11 +106,11 @@ class RemoteDataSource private constructor(
         return result
     }
 
-    fun getShow(movieId: String): LiveData<ApiResponse<ShowResponse>> {
+    fun getShow(showId: String): LiveData<ApiResponse<ShowResponse>> {
         EspressoIdlingResource.increment()
         val result = MutableLiveData<ApiResponse<ShowResponse>>()
 
-        remoteDao.getShow(movieId, apiRequestKey).apply {
+        remoteDao.getShow(showId, apiRequestKey).apply {
             enqueue(object : Callback<ShowResponse> {
                 override fun onResponse(
                     call: Call<ShowResponse>,
