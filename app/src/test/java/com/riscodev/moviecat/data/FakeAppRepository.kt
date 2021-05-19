@@ -156,14 +156,10 @@ class FakeAppRepository constructor(
     }
 
     override fun saveFavorite(contentId: String, contentType: String) {
-        appExecutors.diskIO().execute {
-            localDataSource.insertFavorite(FavoriteEntity(contentId, contentType))
-        }
+        localDataSource.insertFavorite(FavoriteEntity(contentId, contentType))
     }
 
     override fun removeFavorite(contentId: String, contentType: String) {
-        appExecutors.diskIO().execute {
-            localDataSource.deleteFavorite(contentId, contentType)
-        }
+        localDataSource.deleteFavorite(contentId, contentType)
     }
 }

@@ -3,6 +3,7 @@ package com.riscodev.moviecat.data
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
+import com.nhaarman.mockitokotlin2.refEq
 import com.nhaarman.mockitokotlin2.verify
 import com.riscodev.moviecat.data.source.local.LocalDataSource
 import com.riscodev.moviecat.data.source.local.entity.FavoriteEntity
@@ -143,4 +144,26 @@ class AppRepositoryTest {
         assertNotNull(favoriteEntity)
         assertEquals(dummyEntity.value, favoriteEntity)
     }
+
+    @Test
+    fun saveFavorite() {
+        val dummyContentId = "1"
+        val dummyContentType = MovieEntity.TYPE
+
+        val favoriteEntity = FavoriteEntity(dummyContentId, dummyContentType)
+        `when`(local.insertFavorite(favoriteEntity)).then { Unit }
+        appRepository.saveFavorite(dummyContentId, dummyContentType)
+        verify(local).insertFavorite(refEq(favoriteEntity))
+    }
+
+    @Test
+    fun removeFavorite() {
+        val dummyContentId = "1"
+        val dummyContentType = MovieEntity.TYPE
+
+        `when`(local.deleteFavorite(dummyContentId, dummyContentType)).then { Unit }
+        appRepository.removeFavorite(dummyContentId, dummyContentType)
+        verify(local).deleteFavorite(dummyContentId, dummyContentType)
+    }
+
 }

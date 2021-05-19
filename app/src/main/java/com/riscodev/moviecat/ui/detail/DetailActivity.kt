@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.riscodev.moviecat.R
+import com.riscodev.moviecat.data.source.local.entity.MovieEntity
+import com.riscodev.moviecat.data.source.local.entity.ShowEntity
 import com.riscodev.moviecat.databinding.ActivityDetailBinding
 import com.riscodev.moviecat.ui.detail.movie.DetailMovieFragment
 import com.riscodev.moviecat.ui.detail.show.DetailShowFragment
@@ -42,13 +44,15 @@ class DetailActivity : AppCompatActivity() {
             when (contentCategory) {
                 MOVIE -> {
                     supportActionBar?.title = "Movie"
-                    detailViewModel.setSelectedMovie(contentId)
+                    detailViewModel.setSelectedContentId(contentId)
+                    detailViewModel.setSelectedContentType(MovieEntity.TYPE)
                     populateFragment(DetailMovieFragment.newInstance(), DetailMovieFragment.TAG)
 
                 }
                 TV_SHOW -> {
                     supportActionBar?.title = "Tv Show"
-                    detailViewModel.setSelectedShow(contentId)
+                    detailViewModel.setSelectedContentId(contentId)
+                    detailViewModel.setSelectedContentType(ShowEntity.TYPE)
                     populateFragment(DetailShowFragment.newInstance(), DetailShowFragment.TAG)
                 }
                 else -> {

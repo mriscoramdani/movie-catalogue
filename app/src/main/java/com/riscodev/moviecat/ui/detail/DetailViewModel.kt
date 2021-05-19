@@ -12,40 +12,65 @@ import com.riscodev.moviecat.vo.Resource
 
 class DetailViewModel(private val appRepository: AppRepository) : ViewModel() {
 
-    private var movieId = MutableLiveData<String>()
-    private var showId = MutableLiveData<String>()
+    private var contentId = MutableLiveData<String>()
+    private var contentType = MutableLiveData<String>()
 
     var movie: LiveData<Resource<MovieEntity>> =
-        Transformations.switchMap(movieId) { movieId ->
+        Transformations.switchMap(contentId) { movieId ->
             appRepository.getMovie(movieId)
         }
 
-    var show: LiveData<Resource<ShowEntity>> = Transformations.switchMap(showId) { showId ->
+    var show: LiveData<Resource<ShowEntity>> = Transformations.switchMap(contentId) { showId ->
         appRepository.getShow(showId)
     }
 
-    fun getFavorite(contentId: String, contentType: String): LiveData<FavoriteEntity> =
-        appRepository.getFavorite(contentId, contentType)
-
-    fun saveFavorite(contentId: String, contentType: String) =
-        appRepository.saveFavorite(contentId, contentType)
-
-    fun removeFavorite(contentId: String, contentType: String) =
-        appRepository.removeFavorite(contentId, contentType)
-
-    fun getSelectedMovieId() : String? {
-        return movieId.value
+    var favorite: LiveData<FavoriteEntity> = Transformations.switchMap(contentId) { contentId ->
+        Transformations.switchMap(contentType) { contentType ->
+            appRepository.getFavorite(contentId, contentType)
+        }
     }
 
-    fun setSelectedMovie(movieId: String) {
-        this.movieId.value = movieId
+    fun saveFavorite() : Boolean {
+        contentType.value?.let {
+            when(it) {
+                MovieEntity.TYPE -> {
+                    movie.value?.data?.run {
+                        appRepository.saveFavorite(movieId, it)
+                    } ?: return false
+                }
+                ShowEntity.TYPE -> {
+                    show.value?.data?.run {
+                        appRepository.saveFavorite(showId, it)
+                    } ?: return false
+                }
+            }
+            return true
+        } ?: return false
     }
 
-    fun getSelectedShowId() : String? {
-        return showId.value
+    fun removeFavorite() : Boolean {
+        contentType.value?.let {
+            when(it) {
+                MovieEntity.TYPE -> {
+                    movie.value?.data?.run {
+                        appRepository.removeFavorite(movieId, it)
+                    } ?: return false
+                }
+                ShowEntity.TYPE -> {
+                    show.value?.data?.run {
+                        appRepository.removeFavorite(showId, it)
+                    } ?: return false
+                }
+            }
+            return true
+        } ?: return false
     }
 
-    fun setSelectedShow(showId: String) {
-        this.showId.value = showId
+    fun setSelectedContentId(contentId: String) {
+        this.contentId.value = contentId
+    }
+
+    fun setSelectedContentType(contentType: String) {
+        this.contentType.value = contentType
     }
 }

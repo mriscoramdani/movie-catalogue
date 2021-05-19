@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.riscodev.moviecat.R
-import com.riscodev.moviecat.data.source.local.entity.ShowEntity
 import com.riscodev.moviecat.databinding.FragmentDetailShowBinding
 import com.riscodev.moviecat.ui.detail.DetailViewModel
 import com.riscodev.moviecat.ui.detail.base.BaseFragment
@@ -47,15 +46,12 @@ class DetailShowFragment : BaseFragment() {
             ViewModelFactory.getInstance(requireContext())
         )[DetailViewModel::class.java]
 
-        detailViewModel.getSelectedShowId()?.apply {
-            detailViewModel.getFavorite(this, ShowEntity.TYPE)
-                .observe(viewLifecycleOwner, { favorite ->
-                    if (favorite != null) {
-                        fragmentShowBinding.btnFavoriteShow.setImageResource(R.drawable.ic_favorite_dark)
-                        favorited = true
-                    }
-                })
-        }
+        detailViewModel.favorite.observe(viewLifecycleOwner, { favorite ->
+            if (favorite != null) {
+                fragmentShowBinding.btnFavoriteShow.setImageResource(R.drawable.ic_favorite_dark)
+                favorited = true
+            }
+        })
 
         detailViewModel.show.observe(viewLifecycleOwner, { show ->
             when(show.status) {
@@ -93,13 +89,13 @@ class DetailShowFragment : BaseFragment() {
 
                             btnFavoriteShow.setOnClickListener {
                                 favorited = if (!favorited) {
-                                    detailViewModel.saveFavorite(showId, ShowEntity.TYPE)
-                                    btnFavoriteShow.setImageResource(R.drawable.ic_favorite_dark)
-                                    true
+                                    detailViewModel.saveFavorite().apply {
+                                        if (this) btnFavoriteShow.setImageResource(R.drawable.ic_favorite_dark)
+                                    }
                                 } else {
-                                    detailViewModel.removeFavorite(showId, ShowEntity.TYPE)
-                                    btnFavoriteShow.setImageResource(R.drawable.ic_favorite_outline_dark)
-                                    false
+                                    !detailViewModel.removeFavorite().apply {
+                                        if (this) btnFavoriteShow.setImageResource(R.drawable.ic_favorite_outline_dark)
+                                    }
                                 }
                             }
                         }
